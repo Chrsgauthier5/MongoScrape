@@ -1,0 +1,19 @@
+0.) Identify what you'd like to scrape
+
+1.) Get request to a site we are scraping. 
+
+When we do a get request -> we get back the data -> html etc back
+
+2.) Cheerio.load(html) assuming we saved the data to a variable (html)
+$ = cheerio.load(html)
+pass the data into cheerio
+
+3.) Start scraping the data.
+$('h2') = only returns the cheerio model of the DOM back.
+$('h2').text().trim() => get you the first h2 and get the text, but we want all the h2s
+
+4.)
+let results = [];
+$('h2').each(function(i, element){
+
+var title = $(element).find('a').html()
