@@ -165,6 +165,12 @@ app.post("/saved/:id", function (req, res) {
             res.json(data);
         });
 });
+app.post("/deleted/:id", function (req, res) {
+    db.Post.update({ _id: req.params.id }, { $set: { saved: false } })
+        .then(function (data) {
+            res.json(data);
+        });
+});
 
 // Start the server
 app.listen(PORT, function () {

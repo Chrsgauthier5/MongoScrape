@@ -17,6 +17,8 @@ var printPosts = () => {
     });
 }
 
+printPosts();
+
 $(document).on("click", "#scrapePosts", function() {
     console.log("hello");
     $.ajax({
@@ -33,6 +35,10 @@ $(document).on("click", "#scrapePosts", function() {
 $(document).on("click", "#savedPosts", function(){
     console.log("Going to saved posts page")
     document.location.href="saved";
+});
+$(document).on("click", "#goHomeBtn", function(){
+    console.log("Going to home page")
+    document.location.href="/";
 });
 
 // Whenever someone clicks a p tag
@@ -111,4 +117,19 @@ $(document).on("click", "#savePost", function() {
        
     });
     $(this).hide() //hides the save button once saved
+});
+
+$(document).on("click", "#deleteBtn", function() {
+    let thisId = $(this).attr("data-id");
+
+    $.ajax({
+        method: "POST",
+        url: "/deleted/" + thisId,
+        data: {id: thisId}
+    })
+    .then(function(data){
+        console.log(data);
+       
+    });
+    $(this).hide() //hides the delete button once deleted
 });

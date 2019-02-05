@@ -4,6 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <title>CL Video Games</title>
+    <style>
+        body {
+            background-color: #41f4bb
+        }
+
+        #buttonDiv {
+            margin: 10px;
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            border-radius: 15px;
+        }
+
+        li {
+            border: 2px solid black;
+            margin: 1px;
+            font-size: 120%;
+        }
+
+        p {
+            font-size: 125%;
+        }
+
+        #wrapper {
+            width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-top: 5%;
+        }
+        .btn{
+            margin: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -11,8 +46,28 @@
 
         <div id="wrapper">
             <h1 class="p-3 mb-2 bg-dark text-white">Saved Posts</h1>
+            <div id="buttonDiv">
+            <button type="button" class="btn btn-primary" id="goHomeBtn">Home Page</button>
+            </div>
             <div id="savedPosts">
-                {{saved}}
+                <ol>
+                    {{#if saved}}
+                    {{#each saved}}
+                    <li>
+                        <p>Title: {{this.title}} <br>
+                            <a href={{this.link}}>Link</a> <br>
+                            Price: {{this.price}} <br>
+                            Location: {{this.location}} <br>
+                            Posted: {{this.timePosted}} <br>
+                        </p>
+                    <button type="button" class="btn btn-dark" data-id={{this._id}} id="deleteBtn">Delete Saved</button>    
+                    </li>
+                    {{/each}}
+                    {{else}}
+                    <h1>No Posts have been saved yet</h1>
+                    {{/if}}
+                </ol>
+
             </div>
             <div id="postNotes"></div>
         </div>
