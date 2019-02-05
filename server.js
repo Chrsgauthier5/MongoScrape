@@ -28,12 +28,12 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Handlebars
-app.set("views","./views");
+app.set("views", "./views");
 app.engine(
-  "handlebars",
-  exphbs({
-    defaultLayout: "main"
-  }));
+    "handlebars",
+    exphbs({
+        defaultLayout: "main"
+    }));
 app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
@@ -44,13 +44,19 @@ mongoose.connect(MONGODB_URI);
 
 // Routes
 
-app.get("/", function (req, res){
-    
+app.get("/", function (req, res) {
+
     res.render("index");
 });
 
-app.get("/saved", function (req, res){
-    res.render("saved");
+app.get("/saved", function (req, res) {
+    db.Post.find({ saved: true })
+        .then(function (savedPosts) {
+            console.log(savedPosts)
+            res.render("saved", {
+                saved: savedPosts
+            });
+        });
 });
 
 // A GET route for scraping the echoJS website
@@ -106,14 +112,14 @@ app.get("/posts", function (req, res) {
         });
 });
 
-app.get("/savedPosts", function(req, res){
-    db.Post.find({saved: true})
-    .then(function(savedResults){
-        res.json(savedResults);
-    })
-    .catch(function (err){
-        res.json(err);
-    });
+app.get("/savedPosts", function (req, res) {
+    db.Post.find({ saved: true })
+        .then(function (savedResults) {
+            res.json(savedResults);
+        })
+        .catch(function (err) {
+            res.json(err);
+        });
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
@@ -153,11 +159,11 @@ app.post("/posts/:id", function (req, res) {
 });
 
 
-app.post("/saved/:id", function(req,res){
-    db.Post.update({_id: req.params.id}, {$set: {saved: true}})
-    .then(function(data){
-        res.json(data);
-    });
+app.post("/saved/:id", function (req, res) {
+    db.Post.update({ _id: req.params.id }, { $set: { saved: true } })
+        .then(function (data) {
+            res.json(data);
+        });
 });
 
 // Start the server
